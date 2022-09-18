@@ -46,7 +46,7 @@ namespace x_44813_iterables {
      * @template TReturn - The final value type returned by the target {@link Iterator}.
      * @template TThis - The type of object to which the 'this' keyword can refer.
      */
-     export interface IThrowFunc<TYield, TReturn = any, TThis = any> {
+     export interface IThrowFunc<TYield = any, TReturn = any, TThis = any> {
         /**
          * Produces an {@link IteratorResult} object when the {@link Iterator.throw} method is invoked on the target {@link Iterator}.
          * @param {TThis} this - The 'this' object for the method invocation.
@@ -66,7 +66,7 @@ namespace x_44813_iterables {
      * @template TNext - The type of value that can be passed to the {@link Iterator.next} method.
      * @template TThis - The type of object to which the 'this' keyword can refer.
      */
-    export interface IIteratorNextFunc<TYield, TReturn = null, TNext = undefined, TThis = any> {
+    export interface IIteratorNextFunc<TYield = any, TReturn = null, TNext = undefined, TThis = any> {
         /**
          * Implements the {@link Iterator.next} method.
          * @param {TThis} this - The 'this' object for the method invocation.
@@ -85,7 +85,7 @@ namespace x_44813_iterables {
      * @template TNext - The type of value may be passed to the {@link Iterator.next} method on the target {@link Iterator}.
      * @template TThis - The type of object to which the 'this' keyword can refer.
      */
-    export interface IIterationPredicate<TYield, TNext = undefined, TThis = any> {
+    export interface IIterationPredicate<TYield = any, TNext = undefined, TThis = any> {
         /**
          * Tests the yielded value from the {@link Iterator.next} method of the target {@link Iterator} object.
          * @param {TThis} this - The 'this' object for the method invocation.
@@ -105,7 +105,7 @@ namespace x_44813_iterables {
      * @template TNext - The type of value may be passed to the {@link Iterator.next} method on the target {@link Iterator}.
      * @template TThis - The type of object to which the 'this' keyword can refer.
      */
-    export interface IIteratorNextCallback<TYield, TNext = undefined, TThis = any> {
+    export interface IIteratorNextCallback<TYield = any, TNext = undefined, TThis = any> {
         /**
          * Tests the yielded value from the {@link Iterator.next} method of the target {@link Iterator} object.
          * @param {TThis} this - The 'this' object for the method invocation.
@@ -125,7 +125,7 @@ namespace x_44813_iterables {
      * @template TNext - The type of value may be passed to the {@link Iterator.next} method on the target {@link Iterator}.
      * @template TThis - The type of object to which the 'this' keyword can refer.
      */
-    export interface IMapFunc<TInput, TResult, TNext = undefined, TThis = any> {
+    export interface IMapFunc<TInput = any, TResult = any, TNext = undefined, TThis = any> {
         /**
          * Converts the yielded value from the {@link Iterator.next} method of the target {@link Iterator} object.
          * @param {TThis} this - The 'this' object for the method invocation.
@@ -145,7 +145,7 @@ namespace x_44813_iterables {
      * @template TInput - The input value type.
      * @template TThis - The type of object to which the 'this' keyword can refer.
      */
-    export interface IReducerFunc<TAcc, TInput, TThis = any> {
+    export interface IReducerFunc<TAcc = any, TInput = any, TThis = any> {
         /**
          * Calculates an aggregated value from the next input value.
          * @param {TThis} this - The 'this' object for the method invocation.
@@ -164,7 +164,7 @@ namespace x_44813_iterables {
      * @template T - The type of value to be tested.
      * @template TThis - The type of object to which the 'this' keyword can refer.
      */
-    export interface IPredicate<T, TThis = any> {
+    export interface IPredicate<T = any, TThis = any> {
         /**
          * Tests a value.
          * @param {TThis} this - The 'this' object for the method invocation.
@@ -182,7 +182,7 @@ namespace x_44813_iterables {
      * @template TReturn - The final return value type.
      * @template TThis - The type of object to which the 'this' keyword can refer.
      */
-    export interface IIteratorThrowHandler<TYield, TReturn = any, TThis = any> {
+    export interface IIteratorThrowHandler<TYield = any, TReturn = any, TThis = any> {
         /**
          * Produces an optional return value from an error state.
          * @param {TThis} this - The 'this' object for the method invocation.
@@ -203,7 +203,7 @@ namespace x_44813_iterables {
      * @interface IIteratorFactory
      * @template T - The array element type.
      */
-    export interface IIteratorFactory<T> {
+    export interface IIteratorFactory<T = any> {
         type: "IteratorFactory";
 
         /**
@@ -236,7 +236,7 @@ namespace x_44813_iterables {
      * @extends {IIteratorFactory<T>}
      * @template T - The array element type.
      */
-    export interface IIteratorFactoryPrototype<T> extends IIteratorFactory<T> {
+    export interface IIteratorFactoryPrototype<T = any> extends IIteratorFactory<T> {
         _source: T[];
         initialize(source: T[]): void;
     }
@@ -247,7 +247,7 @@ namespace x_44813_iterables {
      * @typedef {Readonly<IIteratorFactory>} IteratorFactory;
      * @template T - The source array element type.
      */
-    export declare type IteratorFactory<T> = Readonly<IIteratorFactory<T>>;
+    export declare type IteratorFactory<T = any> = Readonly<IIteratorFactory<T>>;
 
     /**
      * Defines the constructor for the IteratorFactory API
@@ -256,14 +256,14 @@ namespace x_44813_iterables {
      * @extends {$$class.Constructor<IteratorFactory<T>, IIteratorFactoryPrototype<T>>}
      * @template T - The source array element type.
      */
-    export interface IteratorFactoryConstructor<T> extends $$class.Constructor<IteratorFactory<T>, IIteratorFactoryPrototype<T>> {
+    export interface IteratorFactoryConstructor extends $$class.Constructor<IteratorFactory, IIteratorFactoryPrototype> {
         /**
          * Creates a new IteratorFactory instance.
          * @param {T[]} source - The source array of values.
          * @return {IteratorFactory<T>} A new IteratorFactory object.
          * @memberof IteratorFactoryConstructor
          */
-        new(source: T[]): IteratorFactory<T>;
+        new<T>(source: T[]): IteratorFactory<T>;
 
         /**
          * Creates a new IteratorFactory instance.
@@ -271,7 +271,7 @@ namespace x_44813_iterables {
          * @return {IteratorFactory<T>} A new IteratorFactory object.
          * @memberof IteratorFactoryConstructor
          */
-        (source: T[]): IteratorFactory<T>;
+         <T>(source: T[]): IteratorFactory<T>;
 
         /**
          * Creates an iterator from a factory function.
@@ -279,11 +279,15 @@ namespace x_44813_iterables {
          * @template TReturn - The final value type.
          * @template TNext - The type of value that may be passed to the {@link Iterator.next} method.
          * @param {IIteratorNextFunc<TYield, TReturn, TNext>} onNext - The callback method that returns the next iteration result object.
-         * @param {IIteratorOptions<TYield, TReturn>} [options] - Iterator options.
+         * @param {(boolean | IReturnHandler<TReturn>)} [handleReturn] - Deterimines whether the iterator will implement the {@link Iterator.return} method.
+         * If this is a function, then it will be used as the {@link Iterator.return} method;
+         * otherwise, if this is a true value, a return method will be created which creates teh return object from the optional parameter of the {@link Iterator.return} method.
+         * @param {IIteratorThrowHandler<TYield, TReturn>} [onThrow] - Optional callback method that implements the {@link Iterator.throw} method.
          * @return {Iterator<TYield, TReturn, TNext>} The new iterator.
          * @memberof IteratorFactoryConstructor
          */
-        create<TYield, TReturn = any, TNext = undefined>(onNext: IIteratorNextFunc<TYield, TReturn, TNext>, options?: IIteratorOptions<TYield, TReturn>): Iterator<TYield, TReturn, TNext>;
+        create<TYield, TReturn = any, TNext = undefined>(onNext: IIteratorNextFunc<TYield, TReturn, TNext>, handleReturn?: boolean | IReturnHandler<TReturn>,
+            onThrow?: IIteratorThrowHandler<TYield, TReturn>): Iterator<TYield, TReturn, TNext>;
         
         /**
          * Creates an iterator from a factory function
@@ -292,13 +296,16 @@ namespace x_44813_iterables {
          * @template TNext - The type of value that may be passed to the {@link Iterator.next} method.
          * @template TThis - The type of 'this' object for callback methods.
          * @param {IThisIteratorNextFunc<TTThis, Yield, TReturn, TNext>} onNext - The callback method that returns the next iteration result object.
-         * @param {(IThisIteratorOptions<TThis, TYield, TReturn, TNext> | undefined)} options - Iterator options.
+         * @param {(boolean | IReturnHandler<TReturn, TThis> | undefined)} handleReturn - Deterimines whether the iterator will implement the {@link Iterator.return} method.
+         * If this is a function, then it will be used as the {@link Iterator.return} method;
+         * otherwise, if this is a true value, a return method will be created which creates teh return object from the optional parameter of the {@link Iterator.return} method.
+         * @param {(IIteratorThrowHandler<TYield, TReturn, TThis> | undefined)} onThrow - Optional callback method that implements the {@link Iterator.throw} method.
          * @param {TThis} thisObj - The object to use as the 'this' object for callback methods.
          * @return {Iterator<TYield, TReturn, TNext>} The new iterator.
          * @memberof IteratorFactoryConstructor
          */
-        create<TYield, TReturn = any, TNext = undefined, TThis = any>(onNext: IIteratorNextFunc<TYield, TReturn, TNext, TThis>, options: IIteratorOptions<TYield, TReturn, TThis> | undefined,
-            thisObj: TThis): Iterator<TYield, TReturn, TNext>;
+        create<TYield, TReturn = any, TNext = undefined, TThis = any>(onNext: IIteratorNextFunc<TYield, TReturn, TNext, TThis>, handleReturn: boolean | IReturnHandler<TReturn, TThis> | undefined,
+            onThrow: IIteratorThrowHandler<TYield, TReturn, TThis> | undefined, thisObj: TThis): Iterator<TYield, TReturn, TNext>;
 
         /**
          * Creates a new iterator which is a filtered result set of a given iterator.
@@ -482,14 +489,15 @@ namespace x_44813_iterables {
     // #region Option definitions
 
     /**
-     * Iterator creation options.
+     * Base interface for options for the {@link IteratorFactory.iterator} method.
      * @export
-     * @interface IIteratorOptions
-     * @template TYield - The yielded result type for the iterator.
-     * @template TReturn - The final value type for the iterator.
+     * @interface IIteratorToArrayBaseOptions
+     * @extends {IIteratorOptions<TYield, TReturn, TThis>}
+     * @template TYield - The type of values that will be yielded by the target iterator.
+     * @template TReturn - The type of value that will be returned by the target iterator.
      * @template TThis - The type of object to which the 'this' keyword can refer.
      */
-    export interface IIteratorOptions<TYield, TReturn = any, TThis = any> {
+    export interface IIteratorToArrayBaseOptions<TYield, TReturn = any, TThis = any> {
         /**
          * Indicates if the iterator will implement the {@link Iterator.return} method.
          * If this is a function, then it will be used as the {@link Iterator.return} method;
@@ -505,18 +513,7 @@ namespace x_44813_iterables {
          * @memberof IIteratorOptions
          */
         onThrow?: IIteratorThrowHandler<TYield, TReturn, TThis>;
-    }
 
-    /**
-     * Base interface for options for the {@link IteratorFactory.iterator} method.
-     * @export
-     * @interface IIteratorToArrayBaseOptions
-     * @extends {IIteratorOptions<TYield, TReturn, TThis>}
-     * @template TYield - The type of values that will be yielded by the target iterator.
-     * @template TReturn - The type of value that will be returned by the target iterator.
-     * @template TThis - The type of object to which the 'this' keyword can refer.
-     */
-    export interface IIteratorToArrayBaseOptions<TYield, TReturn = any, TThis = any> extends IIteratorOptions<TYield, TReturn, TThis> {
         /**
          * The starting index for the iteration.
          * @type {number}
@@ -582,10 +579,14 @@ namespace x_44813_iterables {
 
     // #endregion
 
+    // #region internal definitions
+
     interface IReturnContext<TReturn = any> { return?: IteratorReturnResult<TReturn>; }
 
-    export const IteratorFactory: IteratorFactoryConstructor<any> = (function<T>(): IteratorFactoryConstructor<T> {
-        var constructor: IteratorFactoryConstructor<T> = Class.create<IteratorFactory<T>, IteratorFactoryConstructor<T>>();
+    // #endregion
+
+    export const IteratorFactory: IteratorFactoryConstructor = (function<T>(): IteratorFactoryConstructor {
+        var constructor: IteratorFactoryConstructor = Class.create<IteratorFactory<T>, IteratorFactoryConstructor>();
 
         // #region Static members
 
@@ -595,47 +596,46 @@ namespace x_44813_iterables {
          * @template TReturn - The final value type.
          * @template TNext - The type of value that may be passed to the {@link Iterator.next} method.
          * @param {IIteratorNextFunc<TYield, TReturn, TNext>} onNext - The callback method that returns the next iteration result object.
-         * @param {IIteratorOptions<TYield, TReturn, TNext>} [options] - Iterator options.
+         * @param {(boolean | IReturnHandler<TReturn>)} [handleReturn] - Deterimines whether the iterator will implement the {@link Iterator.return} method.
+         * If this is a function, then it will be used as the {@link Iterator.return} method;
+         * otherwise, if this is a true value, a return method will be created which creates teh return object from the optional parameter of the {@link Iterator.return} method.
+         * @param {IIteratorThrowHandler<TYield, TReturn>} [onThrow] - Optional callback method that implements the {@link Iterator.throw} method.
          * @param {*} [thisObj] - The optional object to use as the 'this' object for callback methods.
          * @return {Iterator<TYield, TReturn, TNext>} The new iterator.
          * @memberof IteratorFactoryConstructor
          */
-        constructor.create = function<TYield, TReturn = any, TNext = undefined>(onNext: IIteratorNextFunc<TYield, TReturn, TNext>, options?: IIteratorOptions<TYield, TReturn>,
-                thisObj?: any): Iterator<TYield, TReturn, TNext> {
+        constructor.create = function<TYield, TReturn = any, TNext = undefined>(onNext: IIteratorNextFunc<TYield, TReturn, TNext>, handleReturn?: boolean | IReturnHandler<TReturn>,
+            onThrow?: IIteratorThrowHandler<TYield, TReturn>, thisObj?: any): Iterator<TYield, TReturn, TNext> {
             var iterator: Iterator<TYield, TReturn, TNext>;
             var context: IReturnContext<TReturn> = { };
             iterator = {
                 next: function(...args: [] | [TNext]): IteratorResult<TYield, TReturn> {
                     if (typeof context.return !== 'undefined')
                         return context.return;
-                    var resultObj = assertIteratorResult<TYield, TReturn>("next", onNext.apply(thisObj, args));
+                    var resultObj = assertIteratorResult("next", onNext.apply(thisObj, args));
                     if (resultObj.done === true)
                         context.return = resultObj;
                     return resultObj;
                 }
             };
 
-            if (typeof options === 'undefined') return iterator;
-
-            if (typeof options.handleReturn === 'function')
+            if (typeof handleReturn === 'function')
                 iterator.return = function(value?: TReturn): IteratorResult<TYield, TReturn> {
-                    var resultObj = <IteratorReturnResult<TReturn>>assertIteratorResult<TYield, TReturn>("next", (arguments.length == 0) ? (<IReturnHandler<TReturn>>options.handleReturn).call(thisObj) :
-                        (<IReturnHandler<TReturn>>options.handleReturn).call(thisObj, value));
+                    var resultObj: IteratorReturnResult<TReturn> = assertIteratorResult("next", (arguments.length == 0) ? handleReturn.call(thisObj) : handleReturn.call(thisObj, value));
                     if (typeof context.return === 'undefined')
                         context.return = resultObj;
                     return resultObj;
                 };
-            else if (options.handleReturn === true)
+            else if (handleReturn === true)
                 iterator.return = function(value?: TReturn): IteratorResult<TYield, TReturn> {
                     var resultObj = <IteratorReturnResult<TReturn>>{ done: true, value: <TReturn>((typeof value === 'undefined') ? null : value) };
                     if (typeof context.return === 'undefined')
                         context.return = resultObj;
                     return resultObj;
                 };
-            if (typeof options.onThrow === 'function')
+            if (typeof onThrow === 'function')
                 iterator.throw = function(e?: any): IteratorResult<TYield, TReturn> {
-                    var resultObj = <IteratorReturnResult<TReturn>>assertIteratorResult<TYield, TReturn>("next", (arguments.length == 0) ? (<IIteratorThrowHandler<TYield, TReturn>>options.onThrow).call(thisObj) :
-                        (<IIteratorThrowHandler<TYield, TReturn>>options.onThrow).call(thisObj, e));
+                    var resultObj: IteratorResult<TYield, TReturn> = assertIteratorResult("throw", (arguments.length == 0) ? onThrow.call(thisObj) : onThrow.call(thisObj, e));
                     if (resultObj.done === true && typeof context.return === 'undefined')
                         context.return = resultObj;
                     return resultObj;
@@ -662,7 +662,7 @@ namespace x_44813_iterables {
             if (typeof thisArg === 'undefined')
                 return createRelayIterator<TYield, TReturn, TNext>(context, source, function(...args: [] | [TNext]): IteratorResult<TYield, TReturn> {
                     if (typeof context.return !== 'undefined') return context.return;
-                    var result = assertIteratorResult<TYield, TReturn>("next", source.next.apply(source, args));
+                    var result = assertIteratorResult("next", source.next.apply(source, args));
                     if (result.done) {
                         context.return = result;
                         return result;
@@ -790,7 +790,7 @@ namespace x_44813_iterables {
                         if (typeof source.return === 'undefined')
                             context.return = <IteratorReturnResult<TReturn>><any>{ done: true, value: null };
                         else {
-                            var result = assertIteratorResult<TInput, TReturn>("return", (arguments.length > 0) ? source.return(value) : source.return());
+                            var result = assertIteratorResult("return", (arguments.length > 0) ? source.return(value) : source.return());
                             if (result.done) {
                                 context.return = result;
                                 return result;
@@ -807,7 +807,7 @@ namespace x_44813_iterables {
                         if (typeof source.throw === 'undefined')
                             context.return = <IteratorReturnResult<TReturn>><any>{ done: true, value: null };
                         else {
-                            var result = assertIteratorResult<TInput, TReturn>("throw", (arguments.length > 0) ? source.throw(e) : source.throw());
+                            var result = assertIteratorResult("throw", (arguments.length > 0) ? source.throw(e) : source.throw());
                             if (result.done) {
                                 context.return = result;
                                 return result;
@@ -1036,7 +1036,7 @@ namespace x_44813_iterables {
                     endOfIterationHandler = defaultEndOfIterationHandler;
                 else if (typeof (<IToArrayOptions<T, TReturn, TNext>>options).onEndOfIteration === 'function')
                     endOfIterationHandler = function(...args: [] | [TNext]): IteratorReturnResult<TReturn> {
-                        return <IteratorReturnResult<TReturn>>assertIteratorResult<T, TReturn>("next", (<IEndOfIterationHandler<TReturn, TNext>>(<IToArrayOptions<T, TReturn, TNext>>options).onEndOfIteration).apply(undefined, args));
+                        return assertIteratorResult("next", (<IEndOfIterationHandler<TReturn, TNext>>(<IToArrayOptions<T, TReturn, TNext>>options).onEndOfIteration).apply(undefined, args));
                     };
                 else if (typeof (<IToArrayOptionsWithFinalValue<T, TReturn>>options).endOfIterationValue !== 'undefined')
                     endOfIterationHandler = function(): IteratorReturnResult<TReturn> {
@@ -1062,7 +1062,7 @@ namespace x_44813_iterables {
                 if (typeof options !== 'undefined') {
                     if (typeof options.handleReturn === 'function')
                         iterator.return = function(value?: TReturn): IteratorResult<T, TReturn> {
-                            var result: IteratorReturnResult<TReturn> = <IteratorReturnResult<TReturn>>assertIteratorResult<T, TReturn>("return", (<IReturnHandler<TReturn>>options.handleReturn)(value));
+                            var result: IteratorReturnResult<TReturn> = assertIteratorResult("return", (<IReturnHandler<TReturn>>options.handleReturn)(value));
                             if (typeof context.return === 'undefined')
                                 context.return = result;
                             return result;
@@ -1077,7 +1077,7 @@ namespace x_44813_iterables {
                     
                     if (typeof options.onThrow === 'function')
                         iterator.throw = function(e?: any): IteratorResult<T, TReturn> {
-                            var result = assertIteratorResult<T, TReturn>("throw", (<IIteratorThrowHandler<T, TReturn>>options.onThrow)(e));
+                            var result = assertIteratorResult("throw", (<IIteratorThrowHandler<T, TReturn>>options.onThrow)(e));
                             if (result.done && typeof context.return === 'undefined')
                                 context.return = result;
                             return result;
@@ -1093,12 +1093,12 @@ namespace x_44813_iterables {
 
         function defaultEndOfIterationHandler<TReturn = null>(): IteratorReturnResult<TReturn> { return <IteratorReturnResult<TReturn>><any>{ done: true, value: null }; }
 
-        function assertIteratorResult<TYield, TReturn = any>(methodName: string, iteratorResult: any | undefined): IteratorResult<TYield, TReturn> {
+        function assertIteratorResult<TYield, TReturn, TResult extends IteratorResult<TYield, TReturn>>(methodName: string, iteratorResult: IteratorResult<TYield, TReturn> | undefined): TResult {
             if (typeof iteratorResult !== 'object' || iteratorResult === null)
                 throw new TypeError("iterator." + methodName + "() returned a non-object value");
             if (typeof iteratorResult.done !== 'boolean' && typeof iteratorResult.value === 'undefined') throw new TypeError("Object returned by iterator." + methodName +
                 "() does not imlement the IteratorResult interface");
-            return <IteratorResult<TYield, TReturn>>iteratorResult;
+            return <TResult>iteratorResult;
         }
 
         function createRelayIterator<TYield, TReturn = any, TNext = undefined>(context: IReturnContext<TReturn>, source: Iterator<TYield, TReturn, TNext>,
@@ -1112,7 +1112,7 @@ namespace x_44813_iterables {
                         if (typeof context.return === 'undefined')
                             context.return = iteratorResult;
                     } else {
-                        iteratorResult = assertIteratorResult<TYield, TReturn>("return", (arguments.length > 0) ? source.return(value) : source.return());
+                        iteratorResult = assertIteratorResult("return", (arguments.length > 0) ? source.return(value) : source.return());
                         if(typeof context.return === 'undefined') {
                             if (iteratorResult.done === true)
                                 context.return = iteratorResult;
@@ -1130,7 +1130,7 @@ namespace x_44813_iterables {
                         if (typeof context.return === 'undefined')
                             context.return = iteratorResult;
                     } else {
-                        iteratorResult = assertIteratorResult<TYield, TReturn>("throw", (arguments.length > 0) ? source.throw(e) : source.throw());
+                        iteratorResult = assertIteratorResult("throw", (arguments.length > 0) ? source.throw(e) : source.throw());
                         if (typeof context.return === 'undefined')
                             context.return = (iteratorResult.done === true) ? iteratorResult : <IteratorReturnResult<TReturn>><any>{ done: true, value: null };
                     }

@@ -3,6 +3,7 @@ var x_44813_iterables;
 (function (x_44813_iterables) {
     // #region Callback definitions
     ;
+    // #endregion
     x_44813_iterables.IteratorFactory = (function () {
         var constructor = Class.create();
         // #region Static members
@@ -12,12 +13,15 @@ var x_44813_iterables;
          * @template TReturn - The final value type.
          * @template TNext - The type of value that may be passed to the {@link Iterator.next} method.
          * @param {IIteratorNextFunc<TYield, TReturn, TNext>} onNext - The callback method that returns the next iteration result object.
-         * @param {IIteratorOptions<TYield, TReturn, TNext>} [options] - Iterator options.
+         * @param {(boolean | IReturnHandler<TReturn>)} [handleReturn] - Deterimines whether the iterator will implement the {@link Iterator.return} method.
+         * If this is a function, then it will be used as the {@link Iterator.return} method;
+         * otherwise, if this is a true value, a return method will be created which creates teh return object from the optional parameter of the {@link Iterator.return} method.
+         * @param {IIteratorThrowHandler<TYield, TReturn>} [onThrow] - Optional callback method that implements the {@link Iterator.throw} method.
          * @param {*} [thisObj] - The optional object to use as the 'this' object for callback methods.
          * @return {Iterator<TYield, TReturn, TNext>} The new iterator.
          * @memberof IteratorFactoryConstructor
          */
-        constructor.create = function (onNext, options, thisObj) {
+        constructor.create = function (onNext, handleReturn, onThrow, thisObj) {
             var iterator;
             var context = {};
             iterator = {
@@ -34,27 +38,23 @@ var x_44813_iterables;
                     return resultObj;
                 }
             };
-            if (typeof options === 'undefined')
-                return iterator;
-            if (typeof options.handleReturn === 'function')
+            if (typeof handleReturn === 'function')
                 iterator["return"] = function (value) {
-                    var resultObj = assertIteratorResult("next", (arguments.length == 0) ? options.handleReturn.call(thisObj) :
-                        options.handleReturn.call(thisObj, value));
+                    var resultObj = assertIteratorResult("next", (arguments.length == 0) ? handleReturn.call(thisObj) : handleReturn.call(thisObj, value));
                     if (typeof context["return"] === 'undefined')
                         context["return"] = resultObj;
                     return resultObj;
                 };
-            else if (options.handleReturn === true)
+            else if (handleReturn === true)
                 iterator["return"] = function (value) {
                     var resultObj = { done: true, value: ((typeof value === 'undefined') ? null : value) };
                     if (typeof context["return"] === 'undefined')
                         context["return"] = resultObj;
                     return resultObj;
                 };
-            if (typeof options.onThrow === 'function')
+            if (typeof onThrow === 'function')
                 iterator["throw"] = function (e) {
-                    var resultObj = assertIteratorResult("next", (arguments.length == 0) ? options.onThrow.call(thisObj) :
-                        options.onThrow.call(thisObj, e));
+                    var resultObj = assertIteratorResult("throw", (arguments.length == 0) ? onThrow.call(thisObj) : onThrow.call(thisObj, e));
                     if (resultObj.done === true && typeof context["return"] === 'undefined')
                         context["return"] = resultObj;
                     return resultObj;

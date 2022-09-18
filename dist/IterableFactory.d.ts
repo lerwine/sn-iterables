@@ -43,7 +43,7 @@ declare namespace x_44813_iterables {
      * @template TReturn - The final value type returned by the target {@link Iterator}.
      * @template TThis - The type of object to which the 'this' keyword can refer.
      */
-    interface IThrowFunc<TYield, TReturn = any, TThis = any> {
+    interface IThrowFunc<TYield = any, TReturn = any, TThis = any> {
         /**
          * Produces an {@link IteratorResult} object when the {@link Iterator.throw} method is invoked on the target {@link Iterator}.
          * @param {TThis} this - The 'this' object for the method invocation.
@@ -62,7 +62,7 @@ declare namespace x_44813_iterables {
      * @template TNext - The type of value that can be passed to the {@link Iterator.next} method.
      * @template TThis - The type of object to which the 'this' keyword can refer.
      */
-    interface IIteratorNextFunc<TYield, TReturn = null, TNext = undefined, TThis = any> {
+    interface IIteratorNextFunc<TYield = any, TReturn = null, TNext = undefined, TThis = any> {
         /**
          * Implements the {@link Iterator.next} method.
          * @param {TThis} this - The 'this' object for the method invocation.
@@ -80,7 +80,7 @@ declare namespace x_44813_iterables {
      * @template TNext - The type of value may be passed to the {@link Iterator.next} method on the target {@link Iterator}.
      * @template TThis - The type of object to which the 'this' keyword can refer.
      */
-    interface IIterationPredicate<TYield, TNext = undefined, TThis = any> {
+    interface IIterationPredicate<TYield = any, TNext = undefined, TThis = any> {
         /**
          * Tests the yielded value from the {@link Iterator.next} method of the target {@link Iterator} object.
          * @param {TThis} this - The 'this' object for the method invocation.
@@ -99,7 +99,7 @@ declare namespace x_44813_iterables {
      * @template TNext - The type of value may be passed to the {@link Iterator.next} method on the target {@link Iterator}.
      * @template TThis - The type of object to which the 'this' keyword can refer.
      */
-    interface IIteratorNextCallback<TYield, TNext = undefined, TThis = any> {
+    interface IIteratorNextCallback<TYield = any, TNext = undefined, TThis = any> {
         /**
          * Tests the yielded value from the {@link Iterator.next} method of the target {@link Iterator} object.
          * @param {TThis} this - The 'this' object for the method invocation.
@@ -118,7 +118,7 @@ declare namespace x_44813_iterables {
      * @template TNext - The type of value may be passed to the {@link Iterator.next} method on the target {@link Iterator}.
      * @template TThis - The type of object to which the 'this' keyword can refer.
      */
-    interface IMapFunc<TInput, TResult, TNext = undefined, TThis = any> {
+    interface IMapFunc<TInput = any, TResult = any, TNext = undefined, TThis = any> {
         /**
          * Converts the yielded value from the {@link Iterator.next} method of the target {@link Iterator} object.
          * @param {TThis} this - The 'this' object for the method invocation.
@@ -137,7 +137,7 @@ declare namespace x_44813_iterables {
      * @template TInput - The input value type.
      * @template TThis - The type of object to which the 'this' keyword can refer.
      */
-    interface IReducerFunc<TAcc, TInput, TThis = any> {
+    interface IReducerFunc<TAcc = any, TInput = any, TThis = any> {
         /**
          * Calculates an aggregated value from the next input value.
          * @param {TThis} this - The 'this' object for the method invocation.
@@ -155,7 +155,7 @@ declare namespace x_44813_iterables {
      * @template T - The type of value to be tested.
      * @template TThis - The type of object to which the 'this' keyword can refer.
      */
-    interface IPredicate<T, TThis = any> {
+    interface IPredicate<T = any, TThis = any> {
         /**
          * Tests a value.
          * @param {TThis} this - The 'this' object for the method invocation.
@@ -172,7 +172,7 @@ declare namespace x_44813_iterables {
      * @template TReturn - The final return value type.
      * @template TThis - The type of object to which the 'this' keyword can refer.
      */
-    interface IIteratorThrowHandler<TYield, TReturn = any, TThis = any> {
+    interface IIteratorThrowHandler<TYield = any, TReturn = any, TThis = any> {
         /**
          * Produces an optional return value from an error state.
          * @param {TThis} this - The 'this' object for the method invocation.
@@ -188,7 +188,7 @@ declare namespace x_44813_iterables {
      * @interface IIteratorFactory
      * @template T - The array element type.
      */
-    interface IIteratorFactory<T> {
+    interface IIteratorFactory<T = any> {
         type: "IteratorFactory";
         /**
          * Creates an interator from the array that was passed to the constructor.
@@ -218,7 +218,7 @@ declare namespace x_44813_iterables {
      * @extends {IIteratorFactory<T>}
      * @template T - The array element type.
      */
-    interface IIteratorFactoryPrototype<T> extends IIteratorFactory<T> {
+    interface IIteratorFactoryPrototype<T = any> extends IIteratorFactory<T> {
         _source: T[];
         initialize(source: T[]): void;
     }
@@ -228,7 +228,7 @@ declare namespace x_44813_iterables {
      * @typedef {Readonly<IIteratorFactory>} IteratorFactory;
      * @template T - The source array element type.
      */
-    type IteratorFactory<T> = Readonly<IIteratorFactory<T>>;
+    type IteratorFactory<T = any> = Readonly<IIteratorFactory<T>>;
     /**
      * Defines the constructor for the IteratorFactory API
      * @export
@@ -236,32 +236,35 @@ declare namespace x_44813_iterables {
      * @extends {$$class.Constructor<IteratorFactory<T>, IIteratorFactoryPrototype<T>>}
      * @template T - The source array element type.
      */
-    interface IteratorFactoryConstructor<T> extends $$class.Constructor<IteratorFactory<T>, IIteratorFactoryPrototype<T>> {
+    interface IteratorFactoryConstructor extends $$class.Constructor<IteratorFactory, IIteratorFactoryPrototype> {
         /**
          * Creates a new IteratorFactory instance.
          * @param {T[]} source - The source array of values.
          * @return {IteratorFactory<T>} A new IteratorFactory object.
          * @memberof IteratorFactoryConstructor
          */
-        new (source: T[]): IteratorFactory<T>;
+        new <T>(source: T[]): IteratorFactory<T>;
         /**
          * Creates a new IteratorFactory instance.
          * @param {T[]} source - The source array of values.
          * @return {IteratorFactory<T>} A new IteratorFactory object.
          * @memberof IteratorFactoryConstructor
          */
-        (source: T[]): IteratorFactory<T>;
+        <T>(source: T[]): IteratorFactory<T>;
         /**
          * Creates an iterator from a factory function.
          * @template TYield - The yielded value type.
          * @template TReturn - The final value type.
          * @template TNext - The type of value that may be passed to the {@link Iterator.next} method.
          * @param {IIteratorNextFunc<TYield, TReturn, TNext>} onNext - The callback method that returns the next iteration result object.
-         * @param {IIteratorOptions<TYield, TReturn>} [options] - Iterator options.
+         * @param {(boolean | IReturnHandler<TReturn>)} [handleReturn] - Deterimines whether the iterator will implement the {@link Iterator.return} method.
+         * If this is a function, then it will be used as the {@link Iterator.return} method;
+         * otherwise, if this is a true value, a return method will be created which creates teh return object from the optional parameter of the {@link Iterator.return} method.
+         * @param {IIteratorThrowHandler<TYield, TReturn>} [onThrow] - Optional callback method that implements the {@link Iterator.throw} method.
          * @return {Iterator<TYield, TReturn, TNext>} The new iterator.
          * @memberof IteratorFactoryConstructor
          */
-        create<TYield, TReturn = any, TNext = undefined>(onNext: IIteratorNextFunc<TYield, TReturn, TNext>, options?: IIteratorOptions<TYield, TReturn>): Iterator<TYield, TReturn, TNext>;
+        create<TYield, TReturn = any, TNext = undefined>(onNext: IIteratorNextFunc<TYield, TReturn, TNext>, handleReturn?: boolean | IReturnHandler<TReturn>, onThrow?: IIteratorThrowHandler<TYield, TReturn>): Iterator<TYield, TReturn, TNext>;
         /**
          * Creates an iterator from a factory function
          * @template TYield - The yielded value type.
@@ -269,12 +272,15 @@ declare namespace x_44813_iterables {
          * @template TNext - The type of value that may be passed to the {@link Iterator.next} method.
          * @template TThis - The type of 'this' object for callback methods.
          * @param {IThisIteratorNextFunc<TTThis, Yield, TReturn, TNext>} onNext - The callback method that returns the next iteration result object.
-         * @param {(IThisIteratorOptions<TThis, TYield, TReturn, TNext> | undefined)} options - Iterator options.
+         * @param {(boolean | IReturnHandler<TReturn, TThis> | undefined)} handleReturn - Deterimines whether the iterator will implement the {@link Iterator.return} method.
+         * If this is a function, then it will be used as the {@link Iterator.return} method;
+         * otherwise, if this is a true value, a return method will be created which creates teh return object from the optional parameter of the {@link Iterator.return} method.
+         * @param {(IIteratorThrowHandler<TYield, TReturn, TThis> | undefined)} onThrow - Optional callback method that implements the {@link Iterator.throw} method.
          * @param {TThis} thisObj - The object to use as the 'this' object for callback methods.
          * @return {Iterator<TYield, TReturn, TNext>} The new iterator.
          * @memberof IteratorFactoryConstructor
          */
-        create<TYield, TReturn = any, TNext = undefined, TThis = any>(onNext: IIteratorNextFunc<TYield, TReturn, TNext, TThis>, options: IIteratorOptions<TYield, TReturn, TThis> | undefined, thisObj: TThis): Iterator<TYield, TReturn, TNext>;
+        create<TYield, TReturn = any, TNext = undefined, TThis = any>(onNext: IIteratorNextFunc<TYield, TReturn, TNext, TThis>, handleReturn: boolean | IReturnHandler<TReturn, TThis> | undefined, onThrow: IIteratorThrowHandler<TYield, TReturn, TThis> | undefined, thisObj: TThis): Iterator<TYield, TReturn, TNext>;
         /**
          * Creates a new iterator which is a filtered result set of a given iterator.
          * @template TYield - The yielded result type for the iterator.
@@ -441,14 +447,15 @@ declare namespace x_44813_iterables {
         toArray<TYield>(source: Iterator<TYield>, limit?: number): TYield[];
     }
     /**
-     * Iterator creation options.
+     * Base interface for options for the {@link IteratorFactory.iterator} method.
      * @export
-     * @interface IIteratorOptions
-     * @template TYield - The yielded result type for the iterator.
-     * @template TReturn - The final value type for the iterator.
+     * @interface IIteratorToArrayBaseOptions
+     * @extends {IIteratorOptions<TYield, TReturn, TThis>}
+     * @template TYield - The type of values that will be yielded by the target iterator.
+     * @template TReturn - The type of value that will be returned by the target iterator.
      * @template TThis - The type of object to which the 'this' keyword can refer.
      */
-    interface IIteratorOptions<TYield, TReturn = any, TThis = any> {
+    interface IIteratorToArrayBaseOptions<TYield, TReturn = any, TThis = any> {
         /**
          * Indicates if the iterator will implement the {@link Iterator.return} method.
          * If this is a function, then it will be used as the {@link Iterator.return} method;
@@ -463,17 +470,6 @@ declare namespace x_44813_iterables {
          * @memberof IIteratorOptions
          */
         onThrow?: IIteratorThrowHandler<TYield, TReturn, TThis>;
-    }
-    /**
-     * Base interface for options for the {@link IteratorFactory.iterator} method.
-     * @export
-     * @interface IIteratorToArrayBaseOptions
-     * @extends {IIteratorOptions<TYield, TReturn, TThis>}
-     * @template TYield - The type of values that will be yielded by the target iterator.
-     * @template TReturn - The type of value that will be returned by the target iterator.
-     * @template TThis - The type of object to which the 'this' keyword can refer.
-     */
-    interface IIteratorToArrayBaseOptions<TYield, TReturn = any, TThis = any> extends IIteratorOptions<TYield, TReturn, TThis> {
         /**
          * The starting index for the iteration.
          * @type {number}
@@ -532,5 +528,5 @@ declare namespace x_44813_iterables {
      * @template TThis - The type of object to which the 'this' keyword can refer.
      */
     type ToArrayOptions<TYield, TReturn = any, TNext = undefined, TThis = any> = IToArrayOptions<TYield, TReturn, TNext> | IToArrayOptionsWithFinalValue<TYield, TReturn, TThis>;
-    const IteratorFactory: IteratorFactoryConstructor<any>;
+    const IteratorFactory: IteratorFactoryConstructor;
 }
