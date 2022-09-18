@@ -1,69 +1,101 @@
 declare namespace $$class {
+    /**
+     * The class object type for compatibility with the Rhino scripting environment.
+     * @export
+     * @interface Class
+     */
     export interface Class {
+        /**
+         * Default constructor.
+         * @return {Object} A constructed object instance.
+         * @memberof Constructor
+         */
         new(): Object;
     }
 
-    export interface Constructor<TInstance extends JSTypes, TPrototype extends TInstance = TInstance> {
+    /**
+     * Defines an object constructor.
+     * @export
+     * @interface Constructor
+     * @template TInstance - The constructed instance type.
+     * @template TPrototype - The type of the constructor prototype.
+     */
+    export interface Constructor<TInstance extends JSProto, TPrototype extends TInstance = TInstance> {
         prototype: TPrototype;
-        new (...args: any[]): TInstance & Object;
+        
+        /**
+         * Default constructor.
+         * @param {...any[]} args - Costructor arguments.
+         * @return {(TInstance & Object)} A constructed instance.
+         * @memberof Constructor
+         */
+        new(...args: any[]): TInstance & Object;
+
+        /**
+         * Default constructor.
+         * @param {...any[]} args - Costructor arguments.
+         * @return {(TInstance & Object)} A constructed instance.
+         * @memberof Constructor
+         */
+        (...args: any[]): TInstance & Object;
     }
 
-    export interface JSTypes { }
+    /**
+     * Marker type for a JavaScript object type.
+     * @export
+     * @interface JSProto
+     */
+    export interface JSProto { }
 
+    /**
+     * Defines the class constructor for the Rhino scripting environment.
+     * @export
+     * @interface ClassConstructor
+     */
     export interface ClassConstructor {
         prototype: Class;
-        create<K extends keyof JSTypes, TPrototype extends JSTypes[K]>(jsTypeName: K): Constructor<JSTypes[K], TPrototype> & JSTypes[K];
-        create<TInstance extends JSTypes, TConstructor extends Constructor<TInstance, TPrototype>, TPrototype extends TInstance = TInstance>(jsTypeName?: string): Constructor<TInstance, TPrototype> & TConstructor;
+        /**
+         * Creates a class constructor object.
+         * @template K - The class name.
+         * @template TPrototype - The type of the class's prototype.
+         * @param {K} jsTypeName - The class name.
+         * @return {(Constructor<JSProto[K], TPrototype> & JSProto[K])} A constructor object.
+         * @memberof ClassConstructor
+         */
+        create<K extends keyof JSProto, TPrototype extends JSProto[K]>(jsTypeName: K): Constructor<JSProto[K], TPrototype> & JSProto[K];
+
+        /**
+         * Creates a class constructor object
+         * @template TInstance - The constructed instance type.
+         * @template TConstructor - The constructor type.
+         * @template TPrototype - The type of the class's prototype.
+         * @param {string} [jsTypeName] - Optional type name of the class
+         * @return {(TConstructor & ThisType<TInstance>)} A constructor object.
+         * @memberof ClassConstructor
+         */
+        create<TInstance extends JSProto, TConstructor extends Constructor<TInstance, TPrototype>, TPrototype extends TInstance = TInstance>(jsTypeName?: string): TConstructor & ThisType<TInstance>;
     }
 
-    export type PickPrototype<T, K extends keyof T> = T[K];
-    
-    export interface ObjectConstructor {
-        extendsObject<B extends Function, TInstance, TPrototype extends TInstance = TInstance>(base: B, derived: TPrototype & ThisType<PickPrototype<B, 'prototype'> & TInstance>): PickPrototype<B, 'prototype'>  & TInstance & ThisType<PickPrototype<B, 'prototype'> & TInstance>;
-    }
+    export type PickProperty<T, K extends keyof T> = T[K];
 }
 
-interface Object {
-    /** The initial value of Object.prototype.constructor is the standard built-in Object constructor. */
-    constructor: Function;
-
-    /** Returns a string representation of an object. */
-    toString(): string;
-
-    /** Returns a date converted to a string using the current locale. */
-    toLocaleString(): string;
-
-    /** Returns the primitive value of the specified object. */
-    valueOf(): Object;
-
-    /**
-     * Determines whether an object has a property with the specified name.
-     * @param v A property name.
-     */
-    hasOwnProperty(v: string): boolean;
-
-    /**
-     * Determines whether an object exists in another object's prototype chain.
-     * @param v Another object whose prototype chain is to be checked.
-     */
-    isPrototypeOf(v: Object): boolean;
-
-    /**
-     * Determines whether a specified property is enumerable.
-     * @param v A property name.
-     */
-    propertyIsEnumerable(v: string): boolean;
-
+/**
+ * Object constructor compatible with ServiceNow scripting enviroment.
+ * @interface ObjectConstructor
+ */
+interface ObjectConstructor {
     /**
      * Creates a prototype which extends the prototype of a base class.
      * @template B - The base class type.
-     * @template T - Type type of prototype.
+     * @template TInstance - Type type of the instance.
+     * @template TPrototype - Type type of prototype.
      * @param {B} base - The base prototype object.
-     * @param {(T & ThisType<$$class.PickPrototype<B, 'prototype'> & T>)} derived - A prototype which extends the prototype of the provided base class.
-     * @return {($$class.PickPrototype<B, 'prototype'>  & T & ThisType<$$class.PickPrototype<B, 'prototype'> & T>)} A prototype object which extends the prototype of provided base class.
+     * @param {(TPrototype & ThisType<$$class.PickProperty<B, 'prototype'> & TInstance>)} derived - A prototype which extends the prototype of the provided base class.
+     * @return {($$class.PickProperty<B, 'prototype'> & $$class.Constructor<TInstance & B, TPrototype & B> & ThisType<$$class.PickProperty<B, 'prototype'> & TInstance>)} A prototype object which extends the prototype of provided base class.
      * @memberof Object
      */
-    extendsObject<B extends Function, T>(base: B, derived: T & ThisType<$$class.PickPrototype<B, 'prototype'> & T>): $$class.PickPrototype<B, 'prototype'>  & T & ThisType<$$class.PickPrototype<B, 'prototype'> & T>;
+    extendsObject<B extends Function, TInstance, TPrototype extends TInstance = TInstance>(base: B, derived: TPrototype & ThisType<$$class.PickProperty<B, 'prototype'> & TInstance>):
+        $$class.PickProperty<B, 'prototype'> & $$class.Constructor<TInstance & B, TPrototype & B> & ThisType<$$class.PickProperty<B, 'prototype'> & TInstance>;
 }
 
 declare const Class: $$class.ClassConstructor;
